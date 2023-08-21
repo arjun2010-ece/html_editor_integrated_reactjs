@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/theme-monokai";
+
 
 function App() {
+  const [code, setCode] = useState("<h1>Hello, World!</h1>");
+  const [output, setOutput] = useState("");
+
+  const runCode = () => {
+    setOutput(code);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <div className="editorSection">
+          <AceEditor
+            mode="html"
+            theme="monokai"
+            onChange={setCode}
+            value={code}
+            name="editor"
+            fontSize="32px"
+            height="300px"
+            editorProps={{ $blockScrolling: true }}
+            setOptions={{ useWorker: false }}
+          />
+        </div>
+
+        <div>
+          <iframe
+            title="output"
+            sandbox="allow-scripts"
+            srcDoc={output}
+          ></iframe>
+        </div>
+      </div>
+      <button onClick={runCode}>Run this code</button>
+    </>
   );
 }
 
